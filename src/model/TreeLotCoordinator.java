@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Hashtable;
+import java.util.Locale;
 import java.util.Properties;
 
 import event.Event;
@@ -26,6 +27,9 @@ import userinterface.WindowPosition;
 
 public class TreeLotCoordinator implements IView, IModel {
 
+	//For internationalization:
+	private Locale theLocale;
+	
 	// Impresario Required:
 	private Properties dependencies;
 	private ModelRegistry myRegistry;
@@ -33,7 +37,7 @@ public class TreeLotCoordinator implements IView, IModel {
 	// GUI Related:
 	private Stage myStage;
 	private Hashtable<String, Scene> myViews;
-	
+
 	private String transactionErrorMessage = "";
 
 	// ----------------------------------------------------------
@@ -52,7 +56,17 @@ public class TreeLotCoordinator implements IView, IModel {
 
 		setDependencies();
 		createAndShowWelcomeView();
-		//createAndShowTreeLotCoordinatorView(); //This is just for testing
+		// createAndShowTreeLotCoordinatorView(); //This is just for testing
+	}
+
+	// -----------------------------------------------------------------------------------
+	private void setLocale(String locale) {
+		if (locale.equals("English")) {
+			theLocale = new Locale("en", "US");
+		}
+		else if (locale.equals("French")) {
+			theLocale = new Locale("fr", "FR");
+		}
 	}
 
 	// -----------------------------------------------------------------------------------
@@ -65,9 +79,16 @@ public class TreeLotCoordinator implements IView, IModel {
 	}
 
 	// -----------------------------------------------------------------------------------
-	public Object getState(String arg0) {
-		// What values go inside here?
-		return null;
+	public Object getState(String key) {
+		
+		if (key.equals("Locale")) {
+			
+			if (theLocale != null)
+				return theLocale;
+			else
+				return "Error: Locale is undefined";
+		}
+		return "";
 	}
 
 	// -----------------------------------------------------------------------------------
@@ -75,29 +96,32 @@ public class TreeLotCoordinator implements IView, IModel {
 		if (key.equals("TreeLotCoordinatorView")) {
 			createAndShowTreeLotCoordinatorView();
 		}
+		if (key.equals("SetLocale")) {
+			setLocale((String)value);
+			createAndShowTreeLotCoordinatorView();
+		}
+		
+		/** This needs to be changed
 		else {
 			String transType = key;
 			doTransaction(transType);
 		}
-			myRegistry.updateSubscribers(key, this);
+		*/
+		myRegistry.updateSubscribers(key, this);
 	}
 
 	// -----------------------------------------------------------------------------------
-	
-	public void doTransaction(String type) {
-		try
-		{
-			//Transaction trans = TransactionFactory.createTransaction(type);
 
-			//trans.subscribe("CancelTransaction", this);
-//			trans.stateChangeRequest("DoYourJob", "");
-		}
-		catch (Exception ex)
-		{
+	public void doTransaction(String type) {
+		try {
+			// Transaction trans = TransactionFactory.createTransaction(type);
+
+			// trans.subscribe("CancelTransaction", this);
+			// trans.stateChangeRequest("DoYourJob", "");
+		} catch (Exception ex) {
 			transactionErrorMessage = "FATAL ERROR: TRANSACTION FAILURE: Unrecognized transaction!!";
 			new Event(Event.getLeafLevelClassName(this), "createTransaction",
-					"Transaction Creation Failure: Unrecognized transaction " + ex.toString(),
-					Event.ERROR);
+					"Transaction Creation Failure: Unrecognized transaction " + ex.toString(), Event.ERROR);
 		}
 	}
 
@@ -143,7 +167,7 @@ public class TreeLotCoordinator implements IView, IModel {
 			// View newView = ViewFactory.createView("TreeLotCoordinatorView",
 			// this);
 			View newView = new WelcomeView(this); // Replace this when
-															// we have a factory
+													// we have a factory
 			currentScene = new Scene(newView);
 			myViews.put("WelcomeView", currentScene);
 		}

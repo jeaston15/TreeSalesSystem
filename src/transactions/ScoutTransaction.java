@@ -1,5 +1,7 @@
 package transactions;
 
+import java.util.Properties;
+
 import impresario.IView;
 import javafx.scene.Scene;
 import model.Scout;
@@ -27,7 +29,16 @@ public class ScoutTransaction extends Transaction {
 	}
 
 	protected void setDependencies() {
-		// TODO Auto-generated method stub
+		dependencies = new Properties();
+		dependencies.setProperty("AddScout", "TransactionError");
+		dependencies.setProperty("CancelAddScout", "CancelTransaction");
+		dependencies.setProperty("UpdateScout", "TransactionError");
+		dependencies.setProperty("CancelUpdateScout", "CancelTransaction");
+		dependencies.setProperty("RemoveScout", "TransactionError");
+		dependencies.setProperty("CancelRemoveScout", "CancelTransaction");
+		dependencies.setProperty("Done", "CancelTransaction");
+
+		myRegistry.setDependencies(dependencies);
 
 	}
 
@@ -35,16 +46,15 @@ public class ScoutTransaction extends Transaction {
 		// TODO Auto-generated method stub
 		if (transType.equals("AddScout")) {
 			Scene currentScene = myViews.get("AddScoutView");
-			
+
 			if (currentScene == null) {
-				//View newView = new AddScoutView();
+				// View newView = new AddScoutView();
 			}
 		}
 
 		if ((transType.equals("UpdateScout")) || (transType.equals("RemoveScout"))) {
 			Scene currentScene = myViews.get("UpdateRemoveScoutView");
 		}
-
 
 		return null;
 	}
@@ -56,15 +66,15 @@ public class ScoutTransaction extends Transaction {
 
 	public void stateChangeRequest(String key, Object value) {
 		if (key.equals("AddScout")) {
-			
+
 		}
 
 		if (key.equals("UpdateScout")) {
-			
+
 		}
 
 		if (key.equals("RemoveScout")) {
-	
+
 		}
 	}
 

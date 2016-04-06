@@ -105,27 +105,19 @@ public class WelcomeView extends View {
 
 		englishButton = new Button("English");
 
-		/**
-		 * We need to change this to the observer pattern
-		 * englishButton.setOnAction(new EventHandler<ActionEvent>() {
-		 * 
-		 * @Override public void handle(ActionEvent e) {
-		 * 
-		 *           myTLC.createAndShowWelcomeView();
-		 * 
-		 *           } });
-		 * 
-		 */
+		
+		englishButton.setOnAction(e -> {	
+			myTLC.stateChangeRequest("SetLocale", "English");
+		});
+		
 		grid.add(englishButton, 0, 0);
 
 		frenchButton = new Button("Francais");
-		frenchButton.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent e) {
-				System.exit(0);
-			}
+		
+		frenchButton.setOnAction(e -> {	
+			myTLC.stateChangeRequest("SetLocale", "French");
 		});
+		
 		grid.add(frenchButton, 0, 3);
 
 		return grid;
