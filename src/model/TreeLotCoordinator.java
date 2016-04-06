@@ -56,7 +56,6 @@ public class TreeLotCoordinator implements IView, IModel {
 
 		setDependencies();
 		createAndShowWelcomeView();
-		// createAndShowTreeLotCoordinatorView(); //This is just for testing
 	}
 
 	// -----------------------------------------------------------------------------------
@@ -114,7 +113,7 @@ public class TreeLotCoordinator implements IView, IModel {
 
 	public void doTransaction(String type) {
 		try {
-			// Transaction trans = TransactionFactory.createTransaction(type);
+			// Transaction trans = TransactionFactory.createTransaction(type, );
 
 			// trans.subscribe("CancelTransaction", this);
 			// trans.stateChangeRequest("DoYourJob", "");
@@ -166,8 +165,7 @@ public class TreeLotCoordinator implements IView, IModel {
 		if (currentScene == null) {
 			// View newView = ViewFactory.createView("TreeLotCoordinatorView",
 			// this);
-			View newView = new WelcomeView(this); // Replace this when
-													// we have a factory
+			View newView = new WelcomeView(this);
 			currentScene = new Scene(newView);
 			myViews.put("WelcomeView", currentScene);
 		}

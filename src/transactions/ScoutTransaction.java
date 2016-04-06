@@ -1,5 +1,6 @@
 package transactions;
 
+import java.util.Locale;
 import java.util.Properties;
 
 import impresario.IView;
@@ -13,21 +14,22 @@ public class ScoutTransaction extends Transaction {
 	private String addScoutErrorMessage = "";
 	private String addScoutStatusMessage = "";
 
-	private Scout myScout;
 	private String transType;
 
-	protected ScoutTransaction(String trans, Object model) throws Exception {
-		super(trans, model);
+	//----------------------------------------------------------
+	protected ScoutTransaction(String trans, Locale locale) throws Exception {
+		super(locale);
 		transType = trans;
-		myScout = (Scout) model;
 
 	}
 
+	//----------------------------------------------------------
 	public void subscribe(String arg0, IView arg1) {
 		// TODO Auto-generated method stub
 
 	}
 
+	//----------------------------------------------------------
 	protected void setDependencies() {
 		dependencies = new Properties();
 		dependencies.setProperty("AddScout", "TransactionError");
@@ -42,6 +44,7 @@ public class ScoutTransaction extends Transaction {
 
 	}
 
+	//----------------------------------------------------------
 	protected Scene createView() {
 		// TODO Auto-generated method stub
 		if (transType.equals("AddScout")) {
@@ -59,11 +62,16 @@ public class ScoutTransaction extends Transaction {
 		return null;
 	}
 
+	//----------------------------------------------------------
 	public Object getState(String key) {
-		// TODO Auto-generated method stub
+		if (key.equals("Locale")) {
+			return myLocale;
+		}
+		
 		return null;
 	}
 
+	//----------------------------------------------------------
 	public void stateChangeRequest(String key, Object value) {
 		if (key.equals("AddScout")) {
 

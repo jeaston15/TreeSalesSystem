@@ -1,61 +1,28 @@
 package transactions;
 
+import java.util.Locale;
+
 import impresario.IModel;
 
 public class TransactionFactory {
 
-	public static Transaction createScoutTransaction(String transType, IModel moddel) throws Exception {
-
-		/**
-		Transaction trans = null;
-
-		if (transType.equals("AddScout")) {
-			trans = new ScoutTransaction(transType);
-		}
-
-		else if (transType.equals("UpdateScout")) {
-			trans = new UpdateRemoveScoutTransaction("update");
-		}
-
-		else if (transType.equals("RemoveScout")) {
-			trans = new UpdateRemoveScoutTransaction("remove");
-		}
-		return trans;
-	}
-
-	public static Transaction createTreeTransaction(String transType) throws Exception {
+	public static Transaction createTransaction(String transType, Locale myLocale) throws Exception {
 
 		Transaction trans = null;
 
-		if (transType.equals("AddTree")) {
-			trans = new AddTreeTransaction();
+		if ((transType.equals("AddScout")) || (transType.equals("UpdateScout")) || (transType.equals("RemoveScout"))) {
+			trans = new ScoutTransaction(transType, myLocale);
 		}
 
-		else if (transType.equals("UpdateTree")) {
-			trans = new UpdateRemoveTreeTransaction("update");
+		else if ((transType.equals("AddTree")) || (transType.equals("UpdateTree"))
+				|| (transType.equals("RemoveTree"))) {
+			//trans = new TreeTransaction(transType, myLocale);
 		}
 
-		else if (transType.equals("RemoveTree")) {
-			trans = new UpdateRemoveTreeTransaction("remove");
+		else if ((transType.equals("AddTreeType")) || (transType.equals("UpdateTreeType"))) {
+			//trans = new TreeTypeTransaction(transType, myLocale);
 		}
 
 		return trans;
-	}
-
-	public static Transaction createTreeTypeTransaction(String transType) throws Exception {
-
-		Transaction trans = null;
-
-		if (transType.equals("AddTreeType")) {
-			trans = new AddTreeTypeTransaction();
-		}
-
-		else if (transType.equals("UpdateTreeType")) {
-			trans = new UpdateTreeTypeTransaction();
-		}
-		return trans;
-	}
-	*/
-		return null;
 	}
 }

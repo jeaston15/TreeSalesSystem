@@ -1,6 +1,7 @@
 package transactions;
 
 import java.util.Hashtable;
+import java.util.Locale;
 import java.util.Properties;
 
 import event.Event;
@@ -18,12 +19,28 @@ abstract public class Transaction implements IView, IModel {
 	protected ModelRegistry myRegistry;
 	protected Stage myStage;
 	protected Hashtable<String, Scene> myViews;
-
+	protected Locale myLocale;
+	
 	// Constructor
+	/**
 	protected Transaction(String transType, Object model) throws Exception {
 		myStage = MainStageContainer.getInstance();
 		myViews = new Hashtable<String, Scene>();
 
+		myRegistry = new ModelRegistry("Transaction");
+		if (myRegistry == null) {
+			new Event(Event.getLeafLevelClassName(this), "Transaction", "Could not instantiate Registry", Event.ERROR);
+		}
+		setDependencies();
+	}
+*/
+	// -----------------------------------------------------------------------------
+	// Constructor that takes in the locale
+	protected Transaction(Locale locale) throws Exception {
+		myStage = MainStageContainer.getInstance();
+		myViews = new Hashtable<String, Scene>();
+		myLocale = locale;
+		
 		myRegistry = new ModelRegistry("Transaction");
 		if (myRegistry == null) {
 			new Event(Event.getLeafLevelClassName(this), "Transaction", "Could not instantiate Registry", Event.ERROR);
@@ -37,8 +54,7 @@ abstract public class Transaction implements IView, IModel {
 			Scene newScene = createView();
 			swapToView(newScene);
 		} catch (Exception e) {
-			new Event(Event.getLeafLevelClassName(this), "Transaction",
-					"Could not find any class", Event.ERROR);
+			new Event(Event.getLeafLevelClassName(this), "Transaction", "Could not find any class", Event.ERROR);
 		}
 	}
 
