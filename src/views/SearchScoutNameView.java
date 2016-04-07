@@ -1,4 +1,4 @@
-package userinterface;
+package views;
 
 import java.text.NumberFormat;
 import java.util.Properties;
@@ -23,20 +23,24 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import model.Scout;
-import model.TreeLotCoordinator;
+import models.Scout;
+import models.ScoutCollection;
+import models.TreeLotCoordinator;
+import userinterface.MessageView;
+import userinterface.View;
 // project imports
 import impresario.IModel;
 
 /** The class containing the Teller View for the ATM application */
 // ==============================================================
-public class ScoutChoiceView extends View {
+public class SearchScoutNameView extends View {
 
 	// GUI stuff
 
 	private Button addButton;
 
 	private Button updateRemoveButton;
+	private TextField name;
 
 	private TreeLotCoordinator myTLC;
 
@@ -45,7 +49,7 @@ public class ScoutChoiceView extends View {
 
 	// constructor for this class -- takes a model object
 	// ----------------------------------------------------------
-	public ScoutChoiceView(TreeLotCoordinator tlc) {
+	public SearchScoutNameView(TreeLotCoordinator tlc) {
 
 		super(tlc, "ScoutChoiceView");
 
@@ -75,7 +79,7 @@ public class ScoutChoiceView extends View {
 	// -------------------------------------------------------------
 	private Node createTitle() {
 
-		Text titleText = new Text("       Choose Option         ");
+		Text titleText = new Text("       Enter Scout Name         ");
 		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		titleText.setTextAlignment(TextAlignment.CENTER);
 		titleText.setFill(Color.DARKGREEN);
@@ -92,31 +96,36 @@ public class ScoutChoiceView extends View {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		addButton = new Button("Add Scout");
+		name = new TextField();
+		name.setEditable(true);
+		grid.add(name, 0, 0);
 
-		/** Needs to be changed to the Observer Pattern
+		addButton = new Button("Submit");
+		/**	We need to change this to the observer pattern
 		addButton.setOnAction(new EventHandler<ActionEvent>() {
 
-		
 			@Override
 			public void handle(ActionEvent e) {
+				String nameString = name.getText();
+				ScoutCollection sc = new ScoutCollection();
+				sc.findScoutsWithFirstNameLike(nameString);
 
-				myLibrarian.createAndShowAddScoutView();
+				myLibrarian.createAndShowScoutCollectionView(sc);
 
 			}
 		});
-		grid.add(addButton, 0, 0);
+		*/
+		grid.add(addButton, 0, 1);
 
-		updateRemoveButton = new Button("Update/Remove Scout");
+		updateRemoveButton = new Button("Cancel");
 		updateRemoveButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent e) {
-				myLibrarian.createAndShowSearchScoutNameView();
+
 			}
 		});
-		*/
-		grid.add(updateRemoveButton, 0, 3);
+		grid.add(updateRemoveButton, 1, 1);
 
 		return grid;
 	}
@@ -129,19 +138,6 @@ public class ScoutChoiceView extends View {
 
 		return statusLog;
 	}
-
-	// -------------------------------------------------------------
-
-	public void processAction(Event evt) {
-		// DEBUG: System.out.println("TellerView.actionPerformed()");
-
-	}
-
-	/**
-	 * Process userid and pwd supplied when Submit button is hit. Action is to
-	 * pass this info on to the teller object
-	 */
-	// ----------------------------------------------------------
 
 	public void updateState(String key, Object value) {
 		// STEP 6: Be sure to finish the end of the 'perturbation'

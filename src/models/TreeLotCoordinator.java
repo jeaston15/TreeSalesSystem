@@ -1,4 +1,4 @@
-package model;
+package models;
 
 import java.util.Hashtable;
 import java.util.Locale;
@@ -10,13 +10,14 @@ import impresario.IView;
 import impresario.ModelRegistry;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import transactions.ScoutTransaction;
 import transactions.Transaction;
 import transactions.TransactionFactory;
-import userinterface.TreeLotCoordinatorView;
-import userinterface.View;
-import userinterface.ViewFactory;
-import userinterface.WelcomeView;
 import userinterface.WindowPosition;
+import views.TreeLotCoordinatorView;
+import views.View;
+import views.ViewFactory;
+import views.WelcomeView;
 
 /**
  * TreeLotCoordinator - Main interface agent to the tree sales system
@@ -28,7 +29,7 @@ import userinterface.WindowPosition;
 public class TreeLotCoordinator implements IView, IModel {
 
 	//For internationalization:
-	private Locale theLocale;
+	private Locale myLocale;
 	
 	// Impresario Required:
 	private Properties dependencies;
@@ -61,10 +62,10 @@ public class TreeLotCoordinator implements IView, IModel {
 	// -----------------------------------------------------------------------------------
 	private void setLocale(String locale) {
 		if (locale.equals("English")) {
-			theLocale = new Locale("en", "US");
+			myLocale = new Locale("en", "US");
 		}
 		else if (locale.equals("French")) {
-			theLocale = new Locale("fr", "FR");
+			myLocale = new Locale("fr", "FR");
 		}
 	}
 
@@ -82,8 +83,8 @@ public class TreeLotCoordinator implements IView, IModel {
 		
 		if (key.equals("Locale")) {
 			
-			if (theLocale != null)
-				return theLocale;
+			if (myLocale != null)
+				return myLocale;
 			else
 				return "Error: Locale is undefined";
 		}
@@ -95,28 +96,28 @@ public class TreeLotCoordinator implements IView, IModel {
 		if (key.equals("TreeLotCoordinatorView")) {
 			createAndShowTreeLotCoordinatorView();
 		}
-		if (key.equals("SetLocale")) {
+		
+		else if (key.equals("SetLocale")) {
 			setLocale((String)value);
 			createAndShowTreeLotCoordinatorView();
 		}
 		
-		/** This needs to be changed
-		else {
+		else if (key.equals("AddScout")) {
 			String transType = key;
 			doTransaction(transType);
 		}
-		*/
+		
 		myRegistry.updateSubscribers(key, this);
 	}
 
 	// -----------------------------------------------------------------------------------
 
-	public void doTransaction(String type) {
+	public void doTransaction(String transType) {
 		try {
-			// Transaction trans = TransactionFactory.createTransaction(type, );
-
-			// trans.subscribe("CancelTransaction", this);
-			// trans.stateChangeRequest("DoYourJob", "");
+			Transaction trans = TransactionFactory.createTransaction(transType, myLocale);
+			trans.subscribe("CancelTransaction", this);
+			trans.stateChangeRequest("DoYourJob", "");
+			 
 		} catch (Exception ex) {
 			transactionErrorMessage = "FATAL ERROR: TRANSACTION FAILURE: Unrecognized transaction!!";
 			new Event(Event.getLeafLevelClassName(this), "createTransaction",
@@ -145,33 +146,24 @@ public class TreeLotCoordinator implements IView, IModel {
 		Scene currentScene = (Scene) myViews.get("TreeLotCoordinatorView");
 
 		if (currentScene == null) {
-			// View newView = ViewFactory.createView("TreeLotCoordinatorView",
-			// this);
-			View newView = new TreeLotCoordinatorView(this); // Replace this
-																// when we have
-																// a factory
+			View newView = ViewFactory.createView("TreeLotCoordinatorView", this);
 			currentScene = new Scene(newView);
 			myViews.put("TreeLotCoordinatorView", currentScene);
 		}
 		swapToView(currentScene);
 	}
 
-	///////////////////////////////////////////////////////////////////////////////
-	// POSSIBLY CHANGE THIS
 	// -----------------------------------------------------------------------------
 	private void createAndShowWelcomeView() {
 		Scene currentScene = (Scene) myViews.get("WelcomeView");
 
 		if (currentScene == null) {
-			// View newView = ViewFactory.createView("TreeLotCoordinatorView",
-			// this);
-			View newView = new WelcomeView(this);
+			View newView = ViewFactory.createView("WelcomeView", this);
 			currentScene = new Scene(newView);
 			myViews.put("WelcomeView", currentScene);
 		}
 		swapToView(currentScene);
 	}
-	////////////////////////////////////////////////////////////////////////////////
 
 	// -----------------------------------------------------------------------------
 	public void swapToView(Scene newScene) {

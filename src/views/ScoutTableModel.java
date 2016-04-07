@@ -1,4 +1,4 @@
-package userinterface;
+package views;
 
 import java.util.Vector;
 

@@ -1,4 +1,4 @@
-package userinterface;
+package views;
 
 import java.text.NumberFormat;
 import java.util.Properties;
@@ -23,35 +23,31 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import model.Scout;
-import model.ScoutCollection;
-import model.TreeLotCoordinator;
+import models.Scout;
+import models.TreeLotCoordinator;
+import userinterface.MessageView;
+
 // project imports
 import impresario.IModel;
 
 /** The class containing the Teller View for the ATM application */
 // ==============================================================
-public class SearchScoutNameView extends View {
+public class WelcomeView extends View {
 
 	// GUI stuff
 
-	private Button addButton;
+	private Button englishButton;
+	private Button frenchButton;
 
-	private Button updateRemoveButton;
-	private TextField name;
-
-	private TreeLotCoordinator myTLC;
 
 	// For showing error message
 	private MessageView statusLog;
 
 	// constructor for this class -- takes a model object
 	// ----------------------------------------------------------
-	public SearchScoutNameView(TreeLotCoordinator tlc) {
+	public WelcomeView(IModel tlc) {
 
-		super(tlc, "ScoutChoiceView");
-
-		myTLC = tlc;
+		super(tlc, "WelcomeView");
 
 		// create a container for showing the contents
 		VBox container = new VBox(10);
@@ -60,6 +56,7 @@ public class SearchScoutNameView extends View {
 
 		// create a Node (Text) for showing the title
 		container.getChildren().add(createTitle());
+		container.getChildren().add(createTitle2());
 
 		// create a Node (GridPane) for showing data entry fields
 		container.getChildren().add(createFormContents());
@@ -77,7 +74,17 @@ public class SearchScoutNameView extends View {
 	// -------------------------------------------------------------
 	private Node createTitle() {
 
-		Text titleText = new Text("       Enter Scout Name         ");
+		Text titleText = new Text("       Please Select Language          ");
+		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		titleText.setTextAlignment(TextAlignment.CENTER);
+		titleText.setFill(Color.DARKGREEN);
+
+		return titleText;
+	}
+
+	private Node createTitle2() {
+
+		Text titleText = new Text("      S'il vous plaît sélectionner la langue          ");
 		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		titleText.setTextAlignment(TextAlignment.CENTER);
 		titleText.setFill(Color.DARKGREEN);
@@ -94,36 +101,22 @@ public class SearchScoutNameView extends View {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		name = new TextField();
-		name.setEditable(true);
-		grid.add(name, 0, 0);
+		englishButton = new Button("English");
 
-		addButton = new Button("Submit");
-		/**	We need to change this to the observer pattern
-		addButton.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent e) {
-				String nameString = name.getText();
-				ScoutCollection sc = new ScoutCollection();
-				sc.findScoutsWithFirstNameLike(nameString);
-
-				myLibrarian.createAndShowScoutCollectionView(sc);
-
-			}
+		
+		englishButton.setOnAction(e -> {	
+			myModel.stateChangeRequest("SetLocale", "English");
 		});
-		*/
-		grid.add(addButton, 0, 1);
+		
+		grid.add(englishButton, 0, 0);
 
-		updateRemoveButton = new Button("Cancel");
-		updateRemoveButton.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent e) {
-
-			}
+		frenchButton = new Button("Francais");
+		
+		frenchButton.setOnAction(e -> {	
+			myModel.stateChangeRequest("SetLocale", "French");
 		});
-		grid.add(updateRemoveButton, 1, 1);
+		
+		grid.add(frenchButton, 0, 3);
 
 		return grid;
 	}
@@ -136,6 +129,19 @@ public class SearchScoutNameView extends View {
 
 		return statusLog;
 	}
+
+	// -------------------------------------------------------------
+
+	public void processAction(Event evt) {
+		// DEBUG: System.out.println("TellerView.actionPerformed()");
+
+	}
+
+	/**
+	 * Process userid and pwd supplied when Submit button is hit. Action is to
+	 * pass this info on to the teller object
+	 */
+	// ----------------------------------------------------------
 
 	public void updateState(String key, Object value) {
 		// STEP 6: Be sure to finish the end of the 'perturbation'

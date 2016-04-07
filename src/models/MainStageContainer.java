@@ -11,7 +11,7 @@
 //************************************************************
 //
 //specify the package
-package model;
+package models;
 
 //system imports
 import javafx.stage.Stage;

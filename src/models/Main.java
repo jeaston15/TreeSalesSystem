@@ -1,4 +1,4 @@
-package model;
+package models;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;

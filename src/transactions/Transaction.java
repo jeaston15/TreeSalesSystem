@@ -10,7 +10,7 @@ import impresario.IView;
 import impresario.ModelRegistry;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import userinterface.MainStageContainer;
+import models.MainStageContainer;
 import userinterface.WindowPosition;
 
 abstract public class Transaction implements IView, IModel {
@@ -21,19 +21,7 @@ abstract public class Transaction implements IView, IModel {
 	protected Hashtable<String, Scene> myViews;
 	protected Locale myLocale;
 	
-	// Constructor
-	/**
-	protected Transaction(String transType, Object model) throws Exception {
-		myStage = MainStageContainer.getInstance();
-		myViews = new Hashtable<String, Scene>();
 
-		myRegistry = new ModelRegistry("Transaction");
-		if (myRegistry == null) {
-			new Event(Event.getLeafLevelClassName(this), "Transaction", "Could not instantiate Registry", Event.ERROR);
-		}
-		setDependencies();
-	}
-*/
 	// -----------------------------------------------------------------------------
 	// Constructor that takes in the locale
 	protected Transaction(Locale locale) throws Exception {
@@ -79,7 +67,8 @@ abstract public class Transaction implements IView, IModel {
 			new Event(Event.getLeafLevelClassName(this), "swapToView", "Missing view for display ", Event.ERROR);
 			return;
 		}
-		myStage.setScene(newScene);
+		
+		myStage.setScene(newScene); //
 		myStage.sizeToScene();
 
 		WindowPosition.placeCenter(myStage);

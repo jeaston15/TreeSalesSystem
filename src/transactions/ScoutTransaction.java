@@ -5,9 +5,10 @@ import java.util.Properties;
 
 import impresario.IView;
 import javafx.scene.Scene;
-import model.Scout;
-import userinterface.AddScoutView;
-import userinterface.View;
+import models.Scout;
+import views.AddScoutView;
+import views.View;
+import views.ViewFactory;
 
 public class ScoutTransaction extends Transaction {
 
@@ -16,20 +17,19 @@ public class ScoutTransaction extends Transaction {
 
 	private String transType;
 
-	//----------------------------------------------------------
-	protected ScoutTransaction(String trans, Locale locale) throws Exception {
+	// ----------------------------------------------------------
+	public ScoutTransaction(String trans, Locale locale) throws Exception {
 		super(locale);
 		transType = trans;
-
 	}
 
-	//----------------------------------------------------------
+	// ----------------------------------------------------------
 	public void subscribe(String arg0, IView arg1) {
 		// TODO Auto-generated method stub
 
 	}
 
-	//----------------------------------------------------------
+	// ----------------------------------------------------------
 	protected void setDependencies() {
 		dependencies = new Properties();
 		dependencies.setProperty("AddScout", "TransactionError");
@@ -44,35 +44,42 @@ public class ScoutTransaction extends Transaction {
 
 	}
 
-	//----------------------------------------------------------
+	// ----------------------------------------------------------
 	protected Scene createView() {
-		// TODO Auto-generated method stub
+		
 		if (transType.equals("AddScout")) {
 			Scene currentScene = myViews.get("AddScoutView");
 
 			if (currentScene == null) {
-				// View newView = new AddScoutView();
+				View newView = ViewFactory.createView("AddScoutView", this);
+				currentScene = new Scene(newView);
+				myViews.put("AddScoutView", currentScene);
+				return currentScene;
+			} else {
+				return currentScene;
 			}
 		}
-
-		if ((transType.equals("UpdateScout")) || (transType.equals("RemoveScout"))) {
-			Scene currentScene = myViews.get("UpdateRemoveScoutView");
+		else {
+			return null;
 		}
-
-		return null;
 	}
 
-	//----------------------------------------------------------
+	// ----------------------------------------------------------
 	public Object getState(String key) {
 		if (key.equals("Locale")) {
 			return myLocale;
 		}
-		
+
 		return null;
 	}
 
-	//----------------------------------------------------------
+	// ----------------------------------------------------------
 	public void stateChangeRequest(String key, Object value) {
+
+		if (key.equals("DoYourJob")) {
+			doYourJob();
+		}
+
 		if (key.equals("AddScout")) {
 
 		}

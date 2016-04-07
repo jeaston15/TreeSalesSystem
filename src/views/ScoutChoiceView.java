@@ -1,4 +1,4 @@
-package userinterface;
+package views;
 
 import java.text.NumberFormat;
 import java.util.Properties;
@@ -23,20 +23,22 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import model.Scout;
-import model.TreeLotCoordinator;
+import models.Scout;
+import models.TreeLotCoordinator;
+import userinterface.MessageView;
+import userinterface.View;
 // project imports
 import impresario.IModel;
 
 /** The class containing the Teller View for the ATM application */
 // ==============================================================
-public class WelcomeView extends View {
+public class ScoutChoiceView extends View {
 
 	// GUI stuff
 
-	private Button englishButton;
+	private Button addButton;
 
-	private Button frenchButton;
+	private Button updateRemoveButton;
 
 	private TreeLotCoordinator myTLC;
 
@@ -45,9 +47,9 @@ public class WelcomeView extends View {
 
 	// constructor for this class -- takes a model object
 	// ----------------------------------------------------------
-	public WelcomeView(TreeLotCoordinator tlc) {
+	public ScoutChoiceView(TreeLotCoordinator tlc) {
 
-		super(tlc, "WelcomeView");
+		super(tlc, "ScoutChoiceView");
 
 		myTLC = tlc;
 
@@ -58,7 +60,6 @@ public class WelcomeView extends View {
 
 		// create a Node (Text) for showing the title
 		container.getChildren().add(createTitle());
-		container.getChildren().add(createTitle2());
 
 		// create a Node (GridPane) for showing data entry fields
 		container.getChildren().add(createFormContents());
@@ -76,17 +77,7 @@ public class WelcomeView extends View {
 	// -------------------------------------------------------------
 	private Node createTitle() {
 
-		Text titleText = new Text("       Please Select Language          ");
-		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-		titleText.setTextAlignment(TextAlignment.CENTER);
-		titleText.setFill(Color.DARKGREEN);
-
-		return titleText;
-	}
-
-	private Node createTitle2() {
-
-		Text titleText = new Text("      S'il vous plaît sélectionner la langue          ");
+		Text titleText = new Text("       Choose Option         ");
 		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		titleText.setTextAlignment(TextAlignment.CENTER);
 		titleText.setFill(Color.DARKGREEN);
@@ -103,22 +94,31 @@ public class WelcomeView extends View {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		englishButton = new Button("English");
+		addButton = new Button("Add Scout");
+
+		/** Needs to be changed to the Observer Pattern
+		addButton.setOnAction(new EventHandler<ActionEvent>() {
 
 		
-		englishButton.setOnAction(e -> {	
-			myTLC.stateChangeRequest("SetLocale", "English");
-		});
-		
-		grid.add(englishButton, 0, 0);
+			@Override
+			public void handle(ActionEvent e) {
 
-		frenchButton = new Button("Francais");
-		
-		frenchButton.setOnAction(e -> {	
-			myTLC.stateChangeRequest("SetLocale", "French");
+				myLibrarian.createAndShowAddScoutView();
+
+			}
 		});
-		
-		grid.add(frenchButton, 0, 3);
+		grid.add(addButton, 0, 0);
+
+		updateRemoveButton = new Button("Update/Remove Scout");
+		updateRemoveButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				myLibrarian.createAndShowSearchScoutNameView();
+			}
+		});
+		*/
+		grid.add(updateRemoveButton, 0, 3);
 
 		return grid;
 	}

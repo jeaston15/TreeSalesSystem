@@ -10,7 +10,7 @@
 //************************************************************
 //
 //specify the package
-package userinterface;
+package views;
 
 //system imports
 import java.util.Properties;
@@ -46,8 +46,8 @@ public abstract class View extends Group
 	{
 		myModel = model;
 		myRegistry = new ControlRegistry(classname);
-		
-		if (classname != "WelcomeView")	//WelcomeView determines the locale
+
+		if (!(classname.equals("WelcomeView")))	//WelcomeView determines the locale, Can't call before
 			setResourceBundle(classname);
 	}
 	

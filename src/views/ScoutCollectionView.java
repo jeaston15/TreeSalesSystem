@@ -1,4 +1,4 @@
-package userinterface;
+package views;
 
 import java.awt.Graphics;
 import java.awt.Shape;
@@ -34,8 +34,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import model.Scout;
-import model.ScoutCollection;
+import models.Scout;
+import models.ScoutCollection;
+import userinterface.MessageView;
+import userinterface.View;
 
 public class ScoutCollectionView extends View {
 

@@ -1,4 +1,6 @@
-package userinterface;
+package views;
+
+import java.util.ResourceBundle;
 
 import impresario.IModel;
 import javafx.beans.value.ChangeListener;
@@ -17,33 +19,37 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import model.MainStageContainer;
-import userinterface.View;
+import models.MainStageContainer;
+import views.View;
 
 public class TreeLotCoordinatorView extends View {
 
-	//Locale Components:
-	//private final String mySTR;
-	
-	
+
 	//GUI Components
-	protected Label commonActions;
-	protected Label otherActions;
-	protected Button sellTree;
-	protected Button openShift;
-	protected Button closeShift;
-	protected Label scout;
-	protected Label tree;
-	protected Label treeType;
-	protected Button addScout;
-	protected Button updateScout;
-	protected Button removeScout;
-	protected Button addTree;
-	protected Button updateTree;
-	protected Button removeTree;
-	protected Button addTreeType;
-	protected Button updateTreeType;
+	protected final String title = new String(myResourceBundle.getString("title"));
 	
+	protected final String scoutPaneTitle = new String(myResourceBundle.getString("scoutPaneTitle"));
+	protected final String treePaneTitle = new String(myResourceBundle.getString("treePaneTitle"));
+	protected final String treeTypePaneTitle = new String(myResourceBundle.getString("treeTypePaneTitle"));
+	protected final Label commonActions = new Label(myResourceBundle.getString("commonActions"));
+	protected final Label otherActions = new Label(myResourceBundle.getString("otherActions"));
+
+	protected final Button sellTree = new Button(myResourceBundle.getString("sellTree"));
+	protected final Button openShift = new Button(myResourceBundle.getString("openShift"));
+	protected final Button closeShift = new Button(myResourceBundle.getString("closeShift"));
+	protected final Label scout = new Label(myResourceBundle.getString("scout"));
+	protected final Label tree = new Label(myResourceBundle.getString("tree"));
+	protected final Label treeType = new Label(myResourceBundle.getString("treeType"));
+	protected final Button addScout = new Button(myResourceBundle.getString("addScout"));
+	protected final Button updateScout = new Button(myResourceBundle.getString("updateScout"));
+	protected final Button removeScout = new Button(myResourceBundle.getString("removeScout"));
+	protected final Button addTree = new Button(myResourceBundle.getString("addTree"));
+	protected final Button updateTree = new Button(myResourceBundle.getString("updateTree"));
+	protected final Button removeTree = new Button(myResourceBundle.getString("removeTree"));
+	protected final Button addTreeType = new Button(myResourceBundle.getString("addTreeType"));
+	protected final Button updateTreeType = new Button(myResourceBundle.getString("updateTreeType"));
+	
+
 	
 	//Constructor
 	public TreeLotCoordinatorView(IModel treeLotCoordinator) {
@@ -68,7 +74,7 @@ public class TreeLotCoordinatorView extends View {
 		container.setAlignment(Pos.CENTER);
 				
 		//Change below if desired
-		Text titleText = new Text("Boy Scout Tree Sales");
+		Text titleText = new Text(title);
 		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 25));
 		titleText.setWrappingWidth(300);
 		titleText.setTextAlignment(TextAlignment.CENTER);
@@ -87,8 +93,8 @@ public class TreeLotCoordinatorView extends View {
 		VBox formContainer = new VBox(15);
 		
 		//I can change these to text should I chose
-		commonActions = new Label("Common Actions:");
-		otherActions = new Label("Other Actions:");
+		//commonActions = new Label("Common Actions:");
+		//otherActions = new Label("Other Actions:");
 		
 		VBox topSection = new VBox(15);
 		topSection.setAlignment(Pos.CENTER_LEFT);
@@ -99,9 +105,9 @@ public class TreeLotCoordinatorView extends View {
 		topRow.setAlignment(Pos.CENTER);
 		topRow.setPadding(new Insets(10, 10, 10, 10));
 		
-		sellTree = new Button("Sell Tree");
-		openShift = new Button("Open Shift");
-		closeShift = new Button("Close Shift");
+		//sellTree = new Button("Sell Tree");
+		//openShift = new Button("Open Shift");
+		//closeShift = new Button("Close Shift");
 		/**
 		 * Action Events for Sell Tree, Open Shift & Close Shift
 		 * We don't need these yet
@@ -119,6 +125,7 @@ public class TreeLotCoordinatorView extends View {
 		*/
 		
 		//Make sure to change the following Labels/Buttons to work with locale
+		/**
 		scout = new Label("Scout");
 		tree = new Label("Tree");
 		treeType = new Label("Tree Type");
@@ -133,7 +140,7 @@ public class TreeLotCoordinatorView extends View {
 		
 		addTreeType = new Button("Add");
 		updateTreeType = new Button("Update");
-	
+		 */
 		//ActionEvents, note they are lambda expressions
 		addScout.setOnAction(e -> {
 			myModel.stateChangeRequest("AddScout", null);
@@ -171,7 +178,7 @@ public class TreeLotCoordinatorView extends View {
 		////////////////////////////////////////////////////
 		TitledPane scoutPane = new TitledPane();
 		scoutPane.setAnimated(false);
-		scoutPane.setText("Manage Scouts");
+		scoutPane.setText(scoutPaneTitle);
 		HBox scoutHbox = new HBox(15);
 		scoutHbox.setAlignment(Pos.CENTER);
 		scoutHbox.setPadding(new Insets(10, 10, 20, 10));
@@ -180,7 +187,7 @@ public class TreeLotCoordinatorView extends View {
 		////////////////////////////////////////////////////
 		TitledPane treePane = new TitledPane();
 		treePane.setAnimated(false);
-		treePane.setText("Manage Trees");
+		treePane.setText(treePaneTitle);
 		HBox treeHbox = new HBox(15);
 		treeHbox.setAlignment(Pos.CENTER);
 		treeHbox.setPadding(new Insets(10, 10, 20, 10));
@@ -189,7 +196,7 @@ public class TreeLotCoordinatorView extends View {
 		////////////////////////////////////////////////////
 		TitledPane treeTypePane = new TitledPane();
 		treeTypePane.setAnimated(false);
-		treeTypePane.setText("Manage Tree Types");
+		treeTypePane.setText(treeTypePaneTitle);
 		HBox treeTypeHbox = new HBox(15);
 		treeTypeHbox.setAlignment(Pos.CENTER);
 		treeTypeHbox.setPadding(new Insets(10, 10, 20, 10));

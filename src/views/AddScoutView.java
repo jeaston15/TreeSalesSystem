@@ -1,4 +1,4 @@
-package userinterface;
+package views;
 
 import javafx.event.Event;
 import javafx.event.ActionEvent;
@@ -21,8 +21,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import model.Scout;
-import model.TreeLotCoordinator;
+import models.Scout;
+import models.TreeLotCoordinator;
+import userinterface.MessageView;
+import views.View;
 import javafx.*;
 
 import java.awt.Graphics;
@@ -41,6 +43,20 @@ import impresario.IModel;
 public class AddScoutView extends View {
 
 	// GUI components
+	/**
+	protected final String title = new String(myResourceBundle.getString("title"));
+	protected final String lastNameLabel = new String(myResourceBundle.getString("lastNameLabel"));
+	protected final String firstNameLabel = new String(myResourceBundle.getString("firstNameLabel"));
+	protected final String middleNameLabel = new String(myResourceBundle.getString("middleNameLabel"));
+	protected final String dateOfBirthLabel = new String(myResourceBundle.getString("dateOfBirthLabel"));
+	protected final String phoneNumberLabel = new String(myResourceBundle.getString("phoneNumberLabel"));
+	protected final String emailLabel = new String(myResourceBundle.getString("emailLabel"));
+	protected final String statusLabel = new String(myResourceBundle.getString("status"));
+	protected final String activeStatus = new String(myResourceBundle.getString("activeStatus"));
+	protected final String inactiveStatus = new String(myResourceBundle.getString("inactiveStatus"));
+	protected final String cancelButtonLabel = new String(myResourceBundle.getString("cancelButtonLabel"));
+	protected final String submitButtonLabel = new String(myResourceBundle.getString("submitButtonLabel"));
+	*/
 	protected TextField lastName;
 	protected TextField firstName;
 	protected TextField middleName;
@@ -50,7 +66,6 @@ public class AddScoutView extends View {
 	protected TextField troopID;
 	protected TextField dateStatusUpdated;
 	protected ComboBox<String> status;
-	protected TreeLotCoordinator myTLC;
 
 	protected Button submitButton;
 	protected Button doneButton;
@@ -60,11 +75,9 @@ public class AddScoutView extends View {
 
 	// constructor for this class -- takes a model object
 	// ----------------------------------------------------------
-	public AddScoutView(TreeLotCoordinator tlc) {
-		super(tlc, "ScoutView");
-
-		myTLC = tlc;
-
+	public AddScoutView(IModel scoutTrans) {
+		super(scoutTrans, "AddScoutView");
+		
 		// create a container for showing the contents
 		VBox container = new VBox(10);
 		container.setPadding(new Insets(15, 5, 5, 5));
@@ -79,7 +92,7 @@ public class AddScoutView extends View {
 
 		getChildren().add(container);
 
-		populateFields();
+		//populateFields();
 
 	}
 
@@ -89,7 +102,7 @@ public class AddScoutView extends View {
 		HBox container = new HBox();
 		container.setAlignment(Pos.CENTER);
 
-		Text titleText = new Text(" Add Scout ");
+		Text titleText = new Text("title");
 		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		titleText.setWrappingWidth(300);
 		titleText.setTextAlignment(TextAlignment.CENTER);
@@ -110,108 +123,92 @@ public class AddScoutView extends View {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Text accNumLabel = new Text(" Last Name: ");
+		Text accNumLabel = new Text("firstNameLabel");
 		Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
 		accNumLabel.setFont(myFont);
 		accNumLabel.setWrappingWidth(150);
-		accNumLabel.setTextAlignment(TextAlignment.RIGHT);
+		accNumLabel.setTextAlignment(TextAlignment.LEFT);
 		grid.add(accNumLabel, 0, 1);
-
+		
+		
 		lastName = new TextField();
 		lastName.setEditable(true);
 		grid.add(lastName, 1, 1);
 
-		Text acctTypeLabel = new Text(" First Name : ");
+		Text acctTypeLabel = new Text("middleNameLabel");
 		acctTypeLabel.setFont(myFont);
 		acctTypeLabel.setWrappingWidth(150);
-		acctTypeLabel.setTextAlignment(TextAlignment.RIGHT);
+		acctTypeLabel.setTextAlignment(TextAlignment.LEFT);
 		grid.add(acctTypeLabel, 0, 2);
 
 		firstName = new TextField();
 		firstName.setEditable(true);
 		grid.add(firstName, 1, 2);
 
-		Text balLabel = new Text(" Middle Name: ");
+		Text balLabel = new Text("lastNameLabel");
 		balLabel.setFont(myFont);
 		balLabel.setWrappingWidth(150);
-		balLabel.setTextAlignment(TextAlignment.RIGHT);
+		balLabel.setTextAlignment(TextAlignment.LEFT);
 		grid.add(balLabel, 0, 3);
 
 		middleName = new TextField();
 		middleName.setEditable(true);
 		grid.add(middleName, 1, 3);
 
-		Text balLabel1 = new Text(" Date Of Birth: ");
+		Text balLabel1 = new Text("dateOfBirthLabel");
 		balLabel1.setFont(myFont);
 		balLabel1.setWrappingWidth(150);
-		balLabel1.setTextAlignment(TextAlignment.RIGHT);
+		balLabel1.setTextAlignment(TextAlignment.LEFT);
 		grid.add(balLabel1, 0, 4);
 
 		dateOfBirth = new TextField();
 		dateOfBirth.setEditable(true);
 		grid.add(dateOfBirth, 1, 4);
 
-		Text balLabel2 = new Text(" Phone Number: ");
+		Text balLabel2 = new Text("phoneNumberLabel");
 		balLabel2.setFont(myFont);
 		balLabel2.setWrappingWidth(150);
-		balLabel2.setTextAlignment(TextAlignment.RIGHT);
+		balLabel2.setTextAlignment(TextAlignment.LEFT);
 		grid.add(balLabel2, 0, 5);
 
 		phoneNumber = new TextField();
 		phoneNumber.setEditable(true);
 		grid.add(phoneNumber, 1, 5);
 
-		Text balLabel3 = new Text(" Email: ");
+		Text balLabel3 = new Text("emailLabel");
 		balLabel3.setFont(myFont);
 		balLabel3.setWrappingWidth(150);
-		balLabel3.setTextAlignment(TextAlignment.RIGHT);
+		balLabel3.setTextAlignment(TextAlignment.LEFT);
 		grid.add(balLabel3, 0, 6);
 
 		email = new TextField();
 		email.setEditable(true);
 		grid.add(email, 1, 6);
 
-		Text balLabel4 = new Text(" Troop ID: ");
-		balLabel4.setFont(myFont);
-		balLabel4.setWrappingWidth(150);
-		balLabel4.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(balLabel4, 0, 7);
-
-		troopID = new TextField();
-		troopID.setEditable(true);
-		grid.add(troopID, 1, 7);
-
-		Text balLabel5 = new Text(" Status: ");
+		Text balLabel5 = new Text("statusLabel");
 		balLabel5.setFont(myFont);
 		balLabel5.setWrappingWidth(150);
-		balLabel5.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(balLabel5, 0, 8);
+		balLabel5.setTextAlignment(TextAlignment.LEFT);
+		grid.add(balLabel5, 0, 7);
 
 		status = new ComboBox<String>();
-		status.getItems().addAll("Active", "Inactive");
+		status.getItems().addAll("activeStatus", "inactiveStatus");
 
-		grid.add(status, 1, 8);
+		grid.add(status, 1, 7);
 
-		Text balLabel6 = new Text(" Date Status Updated: ");
-		balLabel6.setFont(myFont);
-		balLabel6.setWrappingWidth(150);
-		balLabel6.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(balLabel6, 0, 9);
-
-		dateStatusUpdated = new TextField();
-		dateStatusUpdated.setEditable(true);
-		grid.add(dateStatusUpdated, 1, 9);
-
+		/** Removing this horrible horrible class
 		MessageView mv = new MessageView("");
 		mv.setFont(myFont);
 		mv.setWrappingWidth(350);
 
 		grid.add(mv, 0, 10);
-
+		 */
 		HBox doneCont = new HBox(10);
 		doneCont.setAlignment(Pos.CENTER);
-		submitButton = new Button("Submit");
+		submitButton = new Button("submitButtonLabel");
 		submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		
+		/**	Needs to be changed to observer pattern
 		submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -247,10 +244,11 @@ public class AddScoutView extends View {
 				}
 			}
 		});
+		*/
 
 		doneCont.getChildren().add(submitButton);
 
-		doneButton = new Button("Done");
+		doneButton = new Button("cancelButtonLabel");
 		doneButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 		
 		/** Still needs to be changed to the observer pattern
@@ -281,6 +279,7 @@ public class AddScoutView extends View {
 		return statusLog;
 	}
 
+	/**
 	// -------------------------------------------------------------
 	public void populateFields() {
 		lastName.setText((String) myModel.getState("lastName"));
@@ -293,7 +292,7 @@ public class AddScoutView extends View {
 		dateStatusUpdated.setText((String) myModel.getState("dateStatusUpdated"));
 
 	}
-
+*/
 	/**
 	 * Update method
 	 */
@@ -320,7 +319,7 @@ public class AddScoutView extends View {
 		statusLog.clearErrorMessage();
 	}
 
-	@Override
+	
 	public void updateState(String key, Object value) {
 		// TODO Auto-generated method stub
 

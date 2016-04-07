@@ -1,4 +1,4 @@
-package model;
+package models;
 
 import java.sql.SQLException;
 import java.util.Enumeration;
@@ -9,11 +9,11 @@ import exception.InvalidPrimaryKeyException;
 import database.*;
 import impresario.IView;
 import userinterface.MainStageContainer;
-import userinterface.View;
-import userinterface.ViewFactory;
+import views.AddScoutView;
+import views.View;
+import views.ViewFactory;
 import javafx.*;
 import model.EntityBase;
-import userinterface.AddScoutView;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 

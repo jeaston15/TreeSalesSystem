@@ -1,4 +1,4 @@
-package model;
+package models;
 
 import java.awt.Event;
 import java.sql.SQLException;
@@ -9,12 +9,10 @@ import javax.swing.JFrame;
 import database.*;
 import exception.InvalidPrimaryKeyException;
 import impresario.IView;
-import userinterface.ScoutCollectionView;
-
 import userinterface.MainStageContainer;
-
-import userinterface.View;
-import userinterface.ViewFactory;
+import views.ScoutCollectionView;
+import views.View;
+import views.ViewFactory;
 import javafx.*;
 import javafx.scene.Scene;
 import model.EntityBase;
@@ -126,7 +124,7 @@ public class ScoutCollection extends EntityBase implements IView {
 			System.out.println(scout.get(i).toString());
 		}
 	}
-
+/**
 	public void createAndShowScoutCollectionView() {
 		Scene currentScene = (Scene) myViews.get("ScoutCollectionView");
 
@@ -140,5 +138,5 @@ public class ScoutCollection extends EntityBase implements IView {
 		swapToView(currentScene);
 
 	}
-
+*/
 }
