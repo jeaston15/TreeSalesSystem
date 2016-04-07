@@ -1,5 +1,3 @@
 dbconfig.ini
 ErrorLog.txt
-/bin/models
-/bin/transactions
-/bin/views
+/bin
